@@ -31,6 +31,14 @@ app.get("/d", (req,res) => {
     });
 });
 
+app.get("/d/:id", (req,res) => {
+    const sql = "SELECT * FROM diakok WHERE oktazon = ?";
+    db.query(sql,[req.params.id], (err, result) => {
+        if (err) return res.json(err);
+        return res.json(result);
+    });
+});
+
 app.get("/j", (req,res) => {
     const sql = "SELECT * FROM jelentkezesek";
     db.query(sql, (err, result) => {
@@ -40,12 +48,14 @@ app.get("/j", (req,res) => {
 });
 
 app.get("/t", (req,res) => {
-    const sql = "SELECT * FROM t";
+    const sql = "SELECT * FROM tagozatok";
     db.query(sql, (err, result) => {
         if (err) return res.json(err);
         return res.json(result);
     });
 });
+
+
 
 app.listen(3000, () => {
     console.log("A szerver a 3000-es porton fut");
