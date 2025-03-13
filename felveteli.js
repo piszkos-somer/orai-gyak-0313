@@ -16,10 +16,34 @@ const db = mysql.createConnection({
 });
 
 app.get("/", (req,res) => {
+    const sql = "SELECT d.nev, t.agazat, (d.hozott + d.kpmagy + d.kpmat) AS osszpontszam FROM diakok d JOIN jelentkezesek j ON d.oktazon = j.diak JOIN tagozatok t ON j.tag = t.akod";
+    db.query(sql, (err, result) => {
+        if (err) return res.json(err);
+        return res.json(result);
+    });
+});
+
+app.get("/d", (req,res) => {
     const sql = "SELECT * FROM diakok";
     db.query(sql, (err, result) => {
         if (err) return res.json(err);
-        return util.format(res.json(result));
+        return res.json(result);
+    });
+});
+
+app.get("/j", (req,res) => {
+    const sql = "SELECT * FROM jelentkezesek";
+    db.query(sql, (err, result) => {
+        if (err) return res.json(err);
+        return res.json(result);
+    });
+});
+
+app.get("/t", (req,res) => {
+    const sql = "SELECT * FROM t";
+    db.query(sql, (err, result) => {
+        if (err) return res.json(err);
+        return res.json(result);
     });
 });
 
